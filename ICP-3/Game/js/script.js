@@ -14,7 +14,7 @@ function play(userChoice) {
         opponentChoice='paper';
     else
         opponentChoice='scissors';
-    // alert(userChoice + oppChoice + opponentChoice);
+
     if (userChoice === opponentChoice)
         alert( "Its a tie! Try again");
     else if (userChoice === "rock")
