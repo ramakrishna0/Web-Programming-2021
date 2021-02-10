@@ -25,10 +25,10 @@ function showUser(user) {
     $(".avatar img").attr("src", user.avatar_url);
     $("#name").text(user.name == null ? "null" : user.name);
     $("#loginId").text(user.id);
-    $("#GitHub URL").text(user.html_url);
+    $("#git").attr("href",user.html_url);
     $("#followers").text(user.followers);
     $("#creationDate").text(user.created_at);
-
+    console.log($("#git").attr("href"));
 }
 
 function noSuchUser(username) {
