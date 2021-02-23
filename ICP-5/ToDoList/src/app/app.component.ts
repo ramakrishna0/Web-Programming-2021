@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ToDoList';
-  items = ['Item 1', 'Item 2', 'Item 3'];
+  items = ['Task 1', 'Task 2', 'Task 3'];
   counter = 0;
   newItem = '';
   valid = false;
