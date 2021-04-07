@@ -1,4 +1,4 @@
-package com.example.vijaya.earthquakeapp;
+package com.github.lvp4b.earthquakeapp;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
@@ -9,8 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
-
-import com.github.lvp4b.earthquakeapp.R;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
