@@ -25,6 +25,16 @@ public class Earthquake {
      */
     private String mUrl;
 
+    @Override
+    public String toString() {
+        return "Earthquake{" +
+                "mMagnitude=" + mMagnitude +
+                ", mLocation='" + mLocation + '\'' +
+                ", mTimeInMilliseconds=" + mTimeInMilliseconds +
+                ", mUrl='" + mUrl + '\'' +
+                '}';
+    }
+
     /**
      * Constructs a new {@link Earthquake} object.
      *

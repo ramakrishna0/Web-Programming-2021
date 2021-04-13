@@ -34,7 +34,7 @@ public class EarthquakeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.earthquake_activity);
 
-        // Find a reference to the {@link ListView} in the layout
+        // Find a reference to the {@link ListView} in the layouthttps://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&orderby=time&minmag=4&limit=10
         ListView earthquakeListView = (ListView) findViewById(R.id.list);
 
         // Create a new adapter that takes an empty list of earthquakes as input
