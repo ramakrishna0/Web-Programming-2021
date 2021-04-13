@@ -3,17 +3,15 @@ package com.example.vijaya.earthquakeapp;
 import android.util.Log;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,37 +46,40 @@ public class QueryUtils {
                         "mag","place","time","url"for every earth quake and create corresponding Earthquake objects with them
                         Add each earthquake object to the list(earthquakes) and return it.
                 */
-            Log.d("RamaKrishna", "fetchEarthquakeData2: ");
             url = new URL(requestUrl);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setRequestProperty("Accept", "application/json");
-            //Log.d("RamaKrishna", "fetchEarthquakeData3: " + urlConnection.getInputStream());
-            if (urlConnection.getResponseCode() == 200 ) {
-                InputStream stream = urlConnection.getInputStream();
-                InputStreamReader output = new InputStreamReader(stream);
-                BufferedReader buffer = new BufferedReader(output);
-                StringBuilder result = new StringBuilder();
-                String line;
-                while((line = buffer.readLine()) != null ) {
-                    result.append(line).append(System.getProperty("line.separator"));
-                }
-                JSONObject jsonObject = new JSONObject(result.toString());
-                JSONArray featuresArray = jsonObject.getJSONArray("features");
-                Earthquake earthquake = null;
-                for(int i = 0; i <featuresArray.length(); i++) {
-                    JSONObject properties = featuresArray.getJSONObject(i).getJSONObject("properties");
-                    earthquake = new Earthquake(
-                            properties.getDouble("mag"),
-                            properties.getString("place"),
-                            properties.getLong("time"),
-                            properties.getString("url")
-                    );
-                    earthquakes.add(earthquake);
-                }
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Accept", "application/json");
+
+            if (connection.getResponseCode() != 200) {
+                throw new IOException("Http error code: " + connection.getResponseCode());
             }
-            else
-                throw new IOException("GET request error code: " + urlConnection.getResponseCode());
+
+            try (InputStream stream = connection.getInputStream();
+                 InputStreamReader reader = new InputStreamReader(stream);
+                 BufferedReader buffer = new BufferedReader(reader)) {
+                StringBuilder builder = new StringBuilder();
+
+                String line;
+                while ((line = buffer.readLine()) != null){
+                    builder.append(line).append(System.lineSeparator());
+                }
+
+                JSONArray array = new JSONObject(builder.toString()).getJSONArray("features");
+                for (int i = 0; i != array.length(); i++) {
+                    JSONObject object = array.getJSONObject(i).getJSONObject("properties");
+                    earthquakes.add(new Earthquake(object.getDouble("mag"),
+                            object.getString("place"),
+                            object.getLong("time"),
+                            object.getString("url")));
+                }
+            } catch (JSONException e) {
+                Log.e(LOG_TAG, "Error parsing JSON array: " + e);
+            }
+
+            connection.disconnect();
+
+
             // Return the list of earthquakes
 
         } catch (Exception e) {
