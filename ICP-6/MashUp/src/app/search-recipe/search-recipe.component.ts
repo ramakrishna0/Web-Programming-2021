@@ -104,7 +104,8 @@ export class SearchRecipeComponent implements OnInit {
          */
         // tslint:disable-next-line:max-line-length
         this._http.get('https://api.foursquare.com/v2/venues/search/?' + '&client_id=OO2P1I0OMSUPC1RDII0B35LZ1A0XVKNJUPBEPGKRMW1CC3J2'
-            + '&client_secret=KMBRXGGGSIAL5AL25YZIURABMKFSHU4ZVAULIRXB0QB131CM' + '&v=20180928&limit=10&&near=' + this.placeValue + '&query=' + this.recipeValue).
+            + '&client_secret=KMBRXGGGSIAL5AL25YZIURABMKFSHU4ZVAULIRXB0QB131CM' + '&v=20180928&limit=10&&near=' + this.placeValue + 'a' +
+            '' + this.recipeValue).
         subscribe(({response}: VenueSearchResponse) => {
           this.venueList = response.venues;
         });
